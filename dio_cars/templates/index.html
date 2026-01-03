@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ title }}</title>
+  <style>
+  table { border-collapse: collapse; width: 80%; margin: 20px auto; }
+  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  th { background: #f2f2f2; }
+  button { padding: 6px 10px; }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">DIO Cars</h1>
+  <table>
+    <thead>
+      <tr><th>Valor</th><th>Ano</th><th>Marca</th><th>Ação</th></tr>
+    </thead>
+    <tbody>
+      {% for car in cars %}
+      <tr>
+        <td>{{ car.valor }}</td>
+        <td>{{ car.ano }}</td>
+        <td>{{ car.marca }}</td>
+        <td><button onclick="selectCar({{ car.id }}, '{{ car.nome }}')">Selecionar</button></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="info-box" style="width:80%; margin:20px auto; padding:12px; border:1px solid #ccc; background:#fafafa;">
+    <h2 style="margin-top:0;">Informações do projeto</h2>
+    <p><strong>Curso:</strong> DIO Configurando e Usando o GitHub Copilot</p>
+    <p><strong>Descrição:</strong> Esta pagina foi criada utilizando exatamente o seguinte prompt:</p>
+    <pre style="white-space:pre-wrap; font-family:inherit; background:transparent; border:0; padding:0;">"vamos criar um projeto python simples que exiba no \"localhost/\" uma tabela chamada \"DIO Cars\" com colunas o valor, ano e marca de 5 carros (pode escolher e deixar fixo no código) sendo a ultima coluna com um botão que ao ser clicado exiba uma mensagem \"voce selecionou o carro (carro selecionaro) \" utilizando MVC"</pre>
+  </div>
+<script>
+function selectCar(id, name){
+  fetch('/select', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({id: id})
+  }).then(r => r.json()).then(data => {
+    alert(data.message);
+  }).catch(e => {
+    alert('Erro ao selecionar o carro');
+  });
+}
+</script>
+</body>
+</html>
